@@ -1,9 +1,10 @@
 from aiogram import Bot, Dispatcher
-from environs import Env
 from handlers.user_handlers import router
-env = Env()
-env.read_env()
-TOKEN = env("TOKEN")
+
+from config.config import load_config
+
+config = load_config()
+TOKEN = config.bot.token
 
 bot = Bot(token=TOKEN)
 dp = Dispatcher()

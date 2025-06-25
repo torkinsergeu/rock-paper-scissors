@@ -24,13 +24,14 @@ async def play(message: Message):
     await message.answer("Отлично!", reply_markup=ReplyKeyboardRemove())
     register_user(message)
     await message.answer("Я загадал!", reply_markup=keyboard_game)    
-
 @router.message(F.text == "Че-то не хочу пока")
 async def no(message: Message):
     if message.from_user.id in users_dict.keys() and users_dict[message.from_user.id][3]:
         await message.answer("Доиграй сначала :)", reply_markup=keyboard_game)
     else:
         await message.answer("Хорошо. Как захочешь - пиши")
+
+
 @router.message(F.text)
 async def in_game(message: Message):
     if message.from_user.id in users_dict.keys() and users_dict[message.from_user.id]:
@@ -38,7 +39,7 @@ async def in_game(message: Message):
         robot_move = users_dict[message.from_user.id][3]
         if (user_move == "Камень" and robot_move == "Бумага" or 
             user_move == "Бумага" and robot_move == "Ножницы" or
-            user_move == "Ножницы" and robot_move == "Бумага"):
+            user_move == "Ножницы" and robot_move == "Камень"):
             users_dict[message.from_user.id][3] = None
             users_dict[message.from_user.id][1] += 1
             await message.answer("Я выиграл! Сыграем еще?", reply_markup=keyboard_start)
